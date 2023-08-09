@@ -2,20 +2,25 @@ const { gql } = require('apollo-server-express')
 
 const typeDefs = gql`
     type User {
-        email: string
-        username: string
-        password: string
+        email: String
+        username: String
+        password: String
         friends: [User]
         favorites: [Lobby]
     }
     
     type Lobby {
-        name: string
+        name: String
+        users: [User]
+        tags: [Tag]
     }
 
     type Tag {
-        name: string
-        tags: [Tag]
+        name: String
+    }
+
+    input TagInput {
+        name: String
     }
 
     type Query {
@@ -23,12 +28,13 @@ const typeDefs = gql`
         lobby: Lobby
         allUsers: [User]
         allLobbies: [Lobby]
-
     }
 
-    type Mutations {
-        createUser(email: string!, username: string!, password: string!): User
-        createLobby(name: string!, tags: [Tag]): Lobby
-        createTag(name: string!): Tag
+    type Mutation {
+        createUser(email: String!, username: String!, password: String!): User
+        createLobby(name: String!, tags: [TagInput]): Lobby
+        createTag(name: String!): Tag
     }
 `
+
+module.exports = typeDefs

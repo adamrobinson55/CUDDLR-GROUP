@@ -1,9 +1,10 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model, Types } = require('mongoose')
 const bcrypt = require('bcrypt')
+
 
 const userSchema = new Schema({
     id: {
-        type: DataTypes.INTEGER,
+        type: Number,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
@@ -22,8 +23,14 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    friends: [User],
-    favorites: [Lobby]
+    friends: [{
+        type: Types.ObjectId,
+        ref: 'User'
+    }],
+    favorites: [{
+        type: Types.ObjectId,
+        ref: 'Lobby'
+    }]
 })
 
 userSchema.pre('save', async function(next) {
