@@ -1,7 +1,4 @@
 const { Schema, model, Types} = require('mongoose')
-const bcrypt = require('bcrypt')
-const User = require('./User')
-const Tag = require('./Tag')
 
 const lobbySchema = new Schema({
     name: {
@@ -11,11 +8,11 @@ const lobbySchema = new Schema({
     },
     users: [{
         type: Types.ObjectId,
-        ref: User
+        ref: 'User'
     }],
     tags: [{
         type: Types.ObjectId, 
-        ref: Tag
+        ref: 'Tag'
     }]
 })
 
