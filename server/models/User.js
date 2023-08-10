@@ -65,5 +65,6 @@ userSchema.methods.comparePassword = function(password) {
 const User = model('user', userSchema)
 const Friend = model('friend', friendSchema)
 
+
 module.exports = Friend
 module.exports = User
