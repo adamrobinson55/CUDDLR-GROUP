@@ -25,25 +25,25 @@ const apolloServer = new ApolloServer({
     resolvers,
 });
 
-// // Create HTTP server instance
-// const serverHttp = http.createServer(app);
+// Create HTTP server instance
+const serverHttp = http.createServer(app);
 
-// // Setting up Socket.io
-// const io = new Server(serverHttp, {
-//     cors: {
-//         origin: 'http://localhost:3001',
-//         methods: ['GET', 'POST'],
-//     },
-// });
+// Setting up Socket.io
+const io = new Server(serverHttp, {
+    cors: {
+        origin: 'http://localhost:3001',
+        methods: ['GET', 'POST'],
+    },
+});
 
-// io.on('connection', (socket) => {
-//     console.log('a user connected');
+io.on('connection', (socket) => {
+    console.log('a user connected');
 
-//     socket.on('message', (message) => {
-//         console.log(message);
-//         io.emit('message', `${socket.id.substring(0, 2)} said ${message}`);
-//     });
-// });
+    socket.on('message', (message) => {
+        console.log(message);
+        io.emit('message', `${socket.id.substring(0, 2)} said ${message}`);
+    });
+});
 
 
 async function startServer() {

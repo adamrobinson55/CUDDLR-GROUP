@@ -45,7 +45,7 @@ var friendSchema = new Schema ({
         required: true
     },
     status: {
-        type: INT,
+        type: Number,
         required: true
     }
 })
