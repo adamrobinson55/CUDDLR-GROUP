@@ -33,6 +33,23 @@ const userSchema = new Schema({
     }]
 })
 
+var friendSchema = new Schema ({
+    requester: {
+        type: Types.ObjectId,
+        ref: 'User',
+        required: true
+    }, 
+    recipient: {
+        type: Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    status: {
+        type: INT,
+        required: true
+    }
+})
+
 userSchema.pre('save', async function(next) {
     if(this.isNew || this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 8)
