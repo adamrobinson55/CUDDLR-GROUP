@@ -1,15 +1,18 @@
-import React from 'react'
-import './App.css'
-
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { useCollectionDate} from 'react-firebase-hooks/firestone'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import Chat from './pages/Chat'
+const client = new ApolloClient({
+  uri: '/graphql',
+  cache: new InMemoryCache(),
+});
 
 function App() {
-    return (
-        <div className='App'>
-            <header className='App-Header'>
-
-            </header>
-        </div>
-    )
+  return (
+    <ApolloProvider client={client}>
+      <Chat />
+    </ApolloProvider>
+  );
 }
+
+export default App;
