@@ -1,4 +1,4 @@
-function chat () {
+function Chat () {
     return (
         <>
             <body>

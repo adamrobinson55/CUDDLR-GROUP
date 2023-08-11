@@ -23,7 +23,11 @@ const PORT = process.env.PORT || 3001
 const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
+    context: authMiddleware
 });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Create HTTP server instance
 const serverHttp = http.createServer(app);
@@ -45,22 +49,21 @@ io.on('connection', (socket) => {
     });
 });
 
-
-async function startServer() {
+async function startServer(typeDefs, resolvers) {
     await apolloServer.start();
+    apolloServer.applyMiddleware({ app })
 
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
 
-    app.use('/graphql', expressMiddleware(apolloServer, {
-        context: authMiddleware,
-    }));
+    // app.use('/graphql', expressMiddleware(apolloServer, {
+    //     context: authMiddleware,
+    // }));
 
     db.once('open', () => {
         app.listen(PORT, () => {
             console.log(`Running on http://localhost:${PORT}`);
+            console.log(`Use GraphQL at http://localhost:${PORT}${apolloServer.graphqlPath}`);
         });
     });
 }
 
-startServer();
+startServer(typeDefs, resolvers);
