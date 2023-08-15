@@ -1,4 +1,9 @@
-function chat () {
+import React from 'react';
+
+
+
+
+function Chat () {
     return (
         <>
             <body>
