@@ -1,5 +1,5 @@
 import React from 'react';
-import './assets/styles/App.css';
+import './App.css';
 import './assets/styles/tailwind.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
