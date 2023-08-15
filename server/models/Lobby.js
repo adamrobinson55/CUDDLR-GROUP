@@ -6,6 +6,11 @@ const lobbySchema = new Schema({
         unique: true,
         required: true
     },
+    id: [{
+        type: String,
+        unique: true,
+        required: true,
+    }],
     users: [{
         type: Types.ObjectId,
         ref: 'User'
