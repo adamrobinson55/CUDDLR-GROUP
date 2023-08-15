@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-
-
-
-
-function Chat () {
-=======
 import { useEffect, useState } from 'react'
 import io from "socket.io-client"
 const socket = io.connect("http://localhost:3001")
@@ -23,7 +15,6 @@ export default function Chat () {
         })
     }, [socket])
 
->>>>>>> d2df4edc0bca73f0bdd84b1bde02054f15017720
     return (
         <>
             <div>
