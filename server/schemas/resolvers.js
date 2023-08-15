@@ -1,4 +1,4 @@
-const {User, Lobby} = require("../models")
+const {User, Lobby, Tag} = require("../models")
 
 const resolvers = {
     Query: {
@@ -20,7 +20,17 @@ const resolvers = {
             return await User.create(args)
         },
         createLobby: async function (parent, args) {
-            return await Lobby.create(args)
+            console.log('ARGS: ', args)
+            const bulkTags = await Tag.insertMany(args.tags)
+            console.log(bulkTags)
+            const newLobby = await (await Lobby.create({
+                name: args.name,
+                tags: bulkTags.map(tag => tag._id)
+            })).populate('tags')
+            console.log('New Lobby!!!!!!')
+            console.log(newLobby)
+            
+            return newLobby
         },
         createTag: async function (parent, args) {
             return await Tag.create(args)

@@ -1,8 +1,10 @@
-import React from 'react';
-import './App.css';
-import './assets/styles/tailwind.css';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+// import Chat from './pages/Chat';
+import ProfilePage from './pages/ProfilePage';
+import NotFound from './pages/NotFound';
+import NewLobbyForm from './components/NewLobbyForm';
 import Chat from './pages/Chat';
 
 const client = new ApolloClient({
@@ -10,44 +12,20 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// function App() {
-//   return (
-//     <ApolloProvider client={client}>
-//       <Chat />
-//     </ApolloProvider>
-//   );
-// }
+export default function App() {
 
-
-function App() {
-  // const myStyle = {
-  //   color: "white",
-  //   backgroundColor: "DodgerBlue",
-  //   padding: "10px",
-  //   fontFamily: "Sans-Serif"
-  // };
   return (
-    <>
-      <header >
-        <h1 className="text-3xl font-bold underline">
-          Hydruh
-        </h1>
-        {/* <profile></profile> */}
-        <p>This is our chat</p>
-      </header>
-      <div class="dropdown">
-        <button onClick="myFunction()" class="dropbtn">Dropdown</button>
-        <div id="myDropdown" class="dropdown-content">
-          <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-
-          </input>
+    <ApolloProvider client={client}>
+      <Router>
+        <div className="bg-blue-500 text-white p-4">
+          <h1 className="text-2xl font-semibold">Welcome to Hydruh</h1>
+          <p className="mt-1 text-sm">It'd be cool to generage unique lines here :^D</p>
         </div>
-      </div>
-      <style>
-
-      </style>
-    </>
-  )
+        <div className="w-screen">
+          <NotFound />
+        </div>
+      </Router>
+    </ApolloProvider>
+  );
 }
 
-export default App;
