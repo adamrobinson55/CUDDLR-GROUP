@@ -34,23 +34,47 @@ const PORT = process.env.PORT || 3001
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: authMiddleware()
+    context: authMiddleware
+});
+
+app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.get("/", (req, res) => {
+    res.send('hello from the backend!')
 })
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false}))
 
-const app = express()
+// Setting up Socket.io
+const io = new Server(serverHttp, {
+    cors: {
+        origin: 'http://localhost:3001',
+        methods: ['GET', 'POST'],
+    },
+});
 
-async function startServer() {
-    await server.start()
-    server.applyMiddleware({ app })
+io.on('connection', (socket) => {
+    console.log(`User Connected: ${socket.id}`);
+
+    socket.on('send_message', (message) => {
+        console.log(message);
+        io.broadcast.emit('receive_message', `${socket.id.substring(0, 2)} said ${message}`);
+    });
+});
+
+async function startServer(typeDefs, resolvers) {
+    await apolloServer.start();
+    apolloServer.applyMiddleware({ app })
 
     db.once('open', () => {
         app.listen(PORT, () => {
-            console.log(`Running on http://localhost:${PORT}`)
-        })
-    })
+            console.log(`Running on http://localhost:${PORT}`);
+            console.log(`Use GraphQL at http://localhost:${PORT}${apolloServer.graphqlPath}`);
+        });
+    });
 }
 
-startServer()
+startServer(typeDefs, resolvers);

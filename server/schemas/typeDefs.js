@@ -18,6 +18,7 @@ const typeDefs = gql`
     }
 
     type Tag {
+        _id: ID
         name: String
     }
 
@@ -25,17 +26,25 @@ const typeDefs = gql`
         name: String
     }
 
+    type Message {
+        text: String
+        username: String
+        user_id: String
+    }
+
     type Query {
         user: User
         lobby: Lobby
         allUsers: [User]
         allLobbies: [Lobby]
+        allMessages: [Message]
     }
 
     type Mutation {
         createUser(email: String!, username: String!, password: String!): User
-        createLobby(name: String!, tags: [TagInput]): Lobby
+        createLobby(name: String, tags: [TagInput]): Lobby
         createTag(name: String!): Tag
+        createMessage(text: String!, username: String!, user_id: String!): Message
     }
 `
 

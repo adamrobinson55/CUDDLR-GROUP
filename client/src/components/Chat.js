@@ -1,14 +1,31 @@
-const socket = io('ws://localhost:3001')
+import React, { useState } from "react";
 
+function Chat({ socket, username, room}) {
+    const [newestMess, setNewestMess] = useState("")
 
-//Super basic implementation of Socket io, just adds
-socket.on('message', text => {
-    const el = document.createElement('li')
-    el.innerHTML = text
-    document.querySelector('ul').appendChild(el)
-})
+    const send = () => {
+        if (newestMess !=="") {
+            const payload = {
+                room: room,
+                writer: username,
+                message: newestMess,
+                time: new Date(Date.now).getHours() + ':' + new Date(Date.now).getMinutes()
+            }
+        }
+    }
 
-document.querySelector('button').onclick = () => {
-    const text = documument.querySelector('input').value
-    socket.emit('message', text)
+    return (
+        <div>
+            <div className="chat-head"></div>
+            <div className="chat-sideBar"></div>
+            <div className="chat-body"></div>
+            <div className="chat-foot">
+                <input type="text" onChange={(event) => {setNewestMess(event.target.value)}}></input>
+                <button>&#10147;</button>
+            </div>
+        </div>
+    )
 }
+
+
+export default Chat

@@ -1,10 +1,9 @@
-const { Schema, model, Types} = require('mongoose')
+const { Schema, model, Types } = require('mongoose')
 
 const lobbySchema = new Schema({
     name: {
-        type: String, 
-        unique: true,
-        required: true
+        type: String,
+        unique: true
     },
     id: [{
         type: String,
@@ -13,11 +12,11 @@ const lobbySchema = new Schema({
     }],
     users: [{
         type: Types.ObjectId,
-        ref: 'User'
+        ref: 'user'
     }],
     tags: [{
-        type: Types.ObjectId, 
-        ref: 'Tag'
+        type: Types.ObjectId,
+        ref: 'tag'
     }]
 })
 
