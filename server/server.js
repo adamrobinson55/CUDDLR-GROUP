@@ -26,8 +26,13 @@ const apolloServer = new ApolloServer({
     context: authMiddleware
 });
 
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.get("/", (req, res) => {
+    res.send('hello from the backend!')
+})
 
 // Create HTTP server instance
 const serverHttp = http.createServer(app);
@@ -41,22 +46,17 @@ const io = new Server(serverHttp, {
 });
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
+    console.log(`User Connected: ${socket.id}`);
 
-    socket.on('message', (message) => {
+    socket.on('send_message', (message) => {
         console.log(message);
-        io.emit('message', `${socket.id.substring(0, 2)} said ${message}`);
+        io.broadcast.emit('receive_message', `${socket.id.substring(0, 2)} said ${message}`);
     });
 });
 
 async function startServer(typeDefs, resolvers) {
     await apolloServer.start();
     apolloServer.applyMiddleware({ app })
-
-
-    // app.use('/graphql', expressMiddleware(apolloServer, {
-    //     context: authMiddleware,
-    // }));
 
     db.once('open', () => {
         app.listen(PORT, () => {

@@ -1,16 +1,32 @@
-function Chat () {
+import { useEffect, useState } from 'react'
+import io from "socket.io-client"
+const socket = io.connect("http://localhost:3001")
+
+export default function Chat () {
+    const [message, setMessage] = useState("")
+    const [messageReceived, setMessageReceived] = useState("")
+    const sendMessage = () => {
+        socket.emit('send_message', {message: 'hello'})
+    }
+
+    useEffect(() => {
+        socket.on("recieve_message", (data) => {
+            setMessageReceived(data.message)
+        })
+    }, [socket])
+
     return (
         <>
-            <body>
-                <ul>
-
-                </ul>
-                <input placeholder="message"/>
-                <button> Send </button>
-            </body>
+            <div>
+                {messageReceived}
+                <input className="w-max self-baseline" placeholder="message" onChange={(event) => {
+                    setMessage(event.target.value)
+                }}/>
+                <button onClick={sendMessage}> Send </button>
+            </div>
 
             <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
-            <script defer src="/chat.js"></script>
+            <script src="/chat.js"></script>
         </>
     )
 }
