@@ -4,14 +4,7 @@ function Chat({ socket, username, room}) {
     const [newestMess, setNewestMess] = useState("")
 
     const send = () => {
-        if (newestMess !=="") {
-            const payload = {
-                room: room,
-                writer: username,
-                message: newestMess,
-                time: new Date(Date.now).getHours() + ':' + new Date(Date.now).getMinutes()
-            }
-        }
+        
     }
 
     return (
