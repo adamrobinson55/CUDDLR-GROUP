@@ -25,25 +25,23 @@ const userSchema = new Schema({
     },
     friends: [{
         type: Types.ObjectId,
-        ref: 'User'
+        ref: 'user'
     }],
     favorites: [{
         type: Types.ObjectId,
-        ref: 'Lobby'
+        ref: 'lobby'
     }]
 })
 
 var friendSchema = new Schema ({
-    sentRequest: [{
-        username: {type: String, default: ''}
-    }],
-    requester: [{
-        userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-        username: {type: String, default: ''}
-    }], 
-    recipient: {
+    requester: {
         type: Types.ObjectId,
         ref: 'User',
+        required: true
+    }, 
+    recipient: {
+        type: Types.ObjectId,
+        ref: 'user',
         required: true
     },
     status: {
