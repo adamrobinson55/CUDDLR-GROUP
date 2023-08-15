@@ -25,23 +25,23 @@ const userSchema = new Schema({
     },
     friends: [{
         type: Types.ObjectId,
-        ref: 'User'
+        ref: 'user'
     }],
     favorites: [{
         type: Types.ObjectId,
-        ref: 'Lobby'
+        ref: 'lobby'
     }]
 })
 
 var friendSchema = new Schema ({
     requester: {
         type: Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     }, 
     recipient: {
         type: Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     },
     status: {

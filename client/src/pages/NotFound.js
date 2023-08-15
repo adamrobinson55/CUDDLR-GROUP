@@ -4,11 +4,12 @@ import { useLocation } from 'react-router-dom';
 function NotFound() {
   let location = useLocation();
   return (
-    <div className="card bg-white card-rounded w-50">
-      <div className="card-header bg-dark text-center">
-        <h1>
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      <div className="bg-white p-6 rounded-lg shadow-md text-center">
+        <h1 className="text-4xl font-semibold mb-4">404 - Page Not Found</h1>
+        <p className="text-gray-600">
           No match for <code>{location.pathname}</code>
-        </h1>
+        </p>
       </div>
     </div>
   );
