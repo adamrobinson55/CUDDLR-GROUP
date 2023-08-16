@@ -25,4 +25,3 @@ query allLobbies {
         name
     }
 }`
-
