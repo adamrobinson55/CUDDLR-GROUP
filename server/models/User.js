@@ -35,7 +35,7 @@ const userSchema = new Schema({
 var friendSchema = new Schema ({
     requester: {
         type: Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
         required: true
     }, 
     recipient: {
@@ -46,8 +46,31 @@ var friendSchema = new Schema ({
     status: {
         type: Number,
         required: true
-    }
+    },
+    friendList :[{
+        friendId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+        friendName: {type: String, default: ''}
+    }],
+    totalRequest: {type: Number, default: 0}
 })
+
+module.exports.createUser = function(newUser, callback) {
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(newUser.password, salt, function(err, hash) {
+            newUser.password = hash
+            newUser.save(callback)
+        })
+    })
+}
+
+module.exports.getUserByUsername = function(username, callback) {
+    var query = { username: username }
+    User.findOne(query, callback)
+}
+
+module.exports.getUserById = function(id, callback) {
+    User.findById(id, callback)
+}
 
 userSchema.pre('save', async function(next) {
     if(this.isNew || this.isModified('password')) {
