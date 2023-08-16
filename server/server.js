@@ -48,10 +48,21 @@ const io = new Server(serverHttp, {
 io.on('connection', (socket) => {
     console.log(`User Connected: ${socket.id}`);
 
-    socket.on('send_message', (message) => {
-        console.log(message);
-        io.broadcast.emit('receive_message', `${socket.id.substring(0, 2)} said ${message}`);
-    });
+    // Send message to room specifically
+    socket.on('message', (message) => {
+        console.log(message)
+        socket.to(message.room).emit("recieve_message", message)
+    })
+
+    // Join a room
+    socket.on('joinRoom', room => {
+        socket.join(room)
+    })
+
+    socket.on('disconnect', () => {
+        console.log(`${socket.id} was Disconnected`)
+    })
+    
 });
 
 async function startServer(typeDefs, resolvers) {
