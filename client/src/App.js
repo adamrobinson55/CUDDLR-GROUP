@@ -7,6 +7,7 @@ import ProfilePage from './pages/ProfilePage';
 import NotFound from './pages/NotFound';
 import NewLobbyForm from './components/NewLobbyForm';
 import Chat from './pages/Chat';
+import NavBar from './components/NavBar'
 //import { User } from '../../server/models';
 
 const socket = io.connect("http://localhost:3001")
