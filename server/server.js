@@ -40,13 +40,18 @@ const serverHttp = http.createServer(app);
 // Setting up Socket.io
 const io = new Server(serverHttp, {
     cors: {
-        origin: 'http://localhost:3001',
+        origin: '*',
         methods: ['GET', 'POST'],
     },
 });
 
 io.on('connection', (socket) => {
     console.log(`User Connected: ${socket.id}`);
+    
+    //join room
+    socket.on('join_room', room => {
+        socket.join(room)
+    })
 
     // Send message to room specifically
     socket.on('message', (message) => {
@@ -54,16 +59,16 @@ io.on('connection', (socket) => {
         socket.to(message.room).emit("recieve_message", message)
     })
 
-    // Join a room
-    socket.on('joinRoom', room => {
-        socket.join(room)
-    })
+
 
     socket.on('disconnect', () => {
         console.log(`${socket.id} was Disconnected`)
     })
     
 });
+serverHttp.listen(3002, () => {
+    console.log(`Socket is listening on http://Localhost:3002`)
+})
 
 async function startServer(typeDefs, resolvers) {
     await apolloServer.start();

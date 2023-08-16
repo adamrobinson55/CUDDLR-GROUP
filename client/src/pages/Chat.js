@@ -33,8 +33,8 @@ export default function Chat ({ socket, username, room }) {
     return (
         <>
             <div>
-                {messageList.map((content) => {
-                    return <h1>{content.message}</h1>
+                {messageList.map((content, index) => {
+                    return <h1 key={index}>{content.message}</h1>
                 })}
                 <input
                 className="w-max self-baseline" 
