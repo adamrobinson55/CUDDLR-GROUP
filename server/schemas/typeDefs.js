@@ -4,6 +4,7 @@ const typeDefs = gql`
     type User {
         _id: ID
         email: String
+        name: String
         username: String
         password: String
         friends: [User]
@@ -12,6 +13,7 @@ const typeDefs = gql`
     
     type Lobby {
         name: String
+        id: String
         users: [User]
         tags: [Tag]
     }
