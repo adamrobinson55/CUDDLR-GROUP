@@ -1,15 +1,15 @@
 import { gql } from '@apollo/client'
 
 export const QUERY_ME = gql`
-query user {
-    user {
+query me {
+    me {
         _id
         email
         username
         password
         friends {
             _id
-            Username
+            username
         }
         favorites {
             _id
@@ -26,3 +26,12 @@ query allLobbies {
     }
 }`
 
+export const QUERY_SINGLE_USER = gql`
+query user($userId: ID) {
+    user(id: $userId) {
+        username
+        aboutme
+        email
+    }
+}
+`
