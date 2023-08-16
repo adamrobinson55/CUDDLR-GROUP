@@ -6,6 +6,7 @@ const typeDefs = gql`
         email: String
         name: String
         username: String
+        aboutme: String
         password: String
         friends: [User]
         favorites: [Lobby]

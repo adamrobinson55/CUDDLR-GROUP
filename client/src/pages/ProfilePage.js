@@ -1,6 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
+import { ADD_FRIEND } from '../utils/mutations'
+import { QUERY_SINGLE_USER } from '../utils/queries'
+import { useParams } from 'react-router-dom'
 
 export default function ProfilePage() {
+  const { userId } = useParams()
+
+  // set up states
+
+  const { loading, data } = useQuery(QUERY_SINGLE_USER, {
+    variables: { id: userId } // would this work? (ask TA)
+  }) 
+  const [ addFriend, { error }] = useMutation(ADD_FRIEND)
+
+  // get user data from getSingleUser query
+  console.log(data.user)
+  const user = data.user || {}
+  // setup button to add friend 
+
+  const handleAddFriend = (e) => {
+  e.preventDefault()
+  console.log("BUTTON WORKS!!!") 
+  addFriend({
+    variables: data._id
+  })
+}
+  // if statement in the return
+
     return (
       <div className="bg-gray-100 min-h-screen flex justify-center items-center">
         <div className="bg-white p-6 rounded-lg shadow-md w-80">
@@ -8,13 +35,15 @@ export default function ProfilePage() {
             className="w-32 h-32 rounded-full mx-auto"
             src="https://via.placeholder.com/150"
             alt="Profile"
-          />
-          <h1 className="text-xl font-semibold mt-4">John Haywire</h1>
+          /> 
+          {/* username should change depending on who signs in */}
+          <h1 className="text-xl font-semibold mt-4">{user.name}</h1>
           <p className="text-gray-600 mt-2">User</p>
           <div className="mt-4">
+          {/* if this is your profile you can edit the about me */}
             <p className="text-gray-700">About Me</p>
             <p className="text-gray-600">
-              I love the minion movies
+              {user.aboutme}
             </p>
           </div>
           <div className="mt-4">
