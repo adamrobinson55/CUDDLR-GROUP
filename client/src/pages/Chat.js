@@ -1,28 +1,32 @@
 import { useEffect, useState } from 'react'
-import io from "socket.io-client"
-const socket = io.connect("http://localhost:3001")
+//import io from "socket.io-client"
+//const socket = io.connect("http://localhost:3001")
 
 export default function Chat ({ socket, username, room }) {
     const [message, setMessage] = useState("")
     const [messageList, setMessageList] = useState([])
-    const [messageReceived, setMessageReceived] = useState("")
+
     const sendMessage = async () => {
         if (message !=="") {
             const payload = {
                 room: room,
                 writer: username,
                 message: message,
-                time: new Date(Date.now).getHours() + ':' + new Date(Date.now).getMinutes()
+                time: new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes()
             }
 
+            // console.log(payload)
             await socket.emit('message', payload)
+            // console.log(messageList)
+            setMessageList((list) => [...list, payload])
+            // console.log(messageList)
+            setMessage("")
         }
     }
 
     useEffect(() => {
-        socket.on("recieve_message", (data) => {
-            setMessageList((list) => [...list, data])
-            setMessageReceived(data.message)
+        socket.on("recieve_message", (message) => {
+            setMessageList((list) => [...list, message])
         })
     }, [socket])
 
@@ -32,9 +36,14 @@ export default function Chat ({ socket, username, room }) {
                 {messageList.map((content) => {
                     return <h1>{content.message}</h1>
                 })}
-                <input className="w-max self-baseline" placeholder="message" onChange={(event) => {
+                <input
+                className="w-max self-baseline" 
+                placeholder="message"
+                value={message}
+                onChange={(event) => {
                     setMessage(event.target.value)
-                }}/>
+                }}
+                onKeyDown={(event) => {event.key === "Enter" && sendMessage()}}/>
                 <button onClick={sendMessage}> &#10559; </button>
             </div>
 
