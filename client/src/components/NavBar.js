@@ -21,7 +21,7 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar expand='lg' className='bg-blue-500'>
+      <Navbar expand='lg' className='bg-blue-500 flex-justify-end'>
         <Container fluid>
           <Navbar.Brand className='text-white' as={Link} to='/'>
             <h1>Welcome To Hydruh</h1>
@@ -36,7 +36,7 @@ const AppNavbar = () => {
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link className='text-white' as={Link} to='/saved'>
-                    wayo
+                    Don't Worry about it :^D
                   </Nav.Link>
                   <Nav.Link className='text-white' onClick={Auth.logout}>Logout</Nav.Link>
                 </>
