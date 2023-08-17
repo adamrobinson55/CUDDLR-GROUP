@@ -1,25 +1,26 @@
-import { useEffect, useState } from 'react'
-import io from "socket.io-client"
-import Auth from '../utils/auth';
-const socket = io.connect("http://localhost:3001")
-
-const username = Auth.getProfile().username
-import { Link } from "react-router-dom"
+import { useContext, useEffect, useState } from 'react'
+import { io } from "socket.io-client"
+import AuthService from '../utils/auth';
+import { Link, useParams } from "react-router-dom"
 import { QUERY_SINGLE_USER } from '../utils/queries'
 import { useQuery } from '@apollo/client'
 
-export default function Chat ({ socket, username, room }) {
+const socket = io('http://localhost:3001')
+
+export default function Chat () {
+    const { id } = useParams()
     const [message, setMessage] = useState("")
     const [messageList, setMessageList] = useState([])
-    const { loading, data } = useQuery(QUERY_SINGLE_USER, {
-        variables: { id: userId} //Might not be optimal not getting UserID
-    })
+    const [roomId, setRoomId] = useState(null)
+    const user = AuthService.getProfile()
+    console.log(user)
 
     const sendMessage = async () => {
         if (message !== "") {
             const payload = {
-                room: room,
-                writer: username,
+                room: id,
+                writer: user.data.username,
+                writerId: user.data._id,
                 message: message,
                 time: new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes()
             }
@@ -37,7 +38,16 @@ export default function Chat ({ socket, username, room }) {
         socket.on("recieve_message", (message) => {
             setMessageList((list) => [...list, message])
         })
-    }, [socket])
+
+        socket.on('room_joined', (room) => {
+            setRoomId(room)
+        })
+
+        return () => {
+            socket.off('recieve_message')
+            socket.off('room_joined')
+        }
+    }, [])
 
     return (
         <>
@@ -49,8 +59,8 @@ export default function Chat ({ socket, username, room }) {
                                 <div>{content.message}</div>
                                 <div className='grid grid-cols-2'>
                                     <p className='w-14'>{content.time}</p>
-                                    <Link to={{ pathname: `/user/${content.writer.id}`}}
-                                    className='w-14'>{content.writer}</Link>
+                                    <Link to={{ pathname: `/user/${content.writerId}`}}
+                                    className='w-14 text-white'>{content.writer}</Link>
                                 </div>
                             </div>
                         )})}
