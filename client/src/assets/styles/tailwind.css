@@ -11,3 +11,9 @@
 
 /* Import the utility styles */
 @import 'tailwindcss/utilities';
+
+@layer base {
+    :root {
+      color: #16a34a;
+    }
+}
