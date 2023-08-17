@@ -27,14 +27,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-function formatName(user) {
-  return user.userName
-};
-
-const user = {
-  userName: 'Harry',
-};
-
 export default function App() {
   const [username, setUserName] = useState("");
   const [room, setRoom] = useState("");
@@ -67,7 +59,6 @@ export default function App() {
               </p>
             </div>
             <div className="w-screen">
-              <NotFound />
               <input
                 type="text"
                 placeholder="John..."
@@ -88,6 +79,7 @@ export default function App() {
         ) : (
           <Chat socket={socket} username={username} room={room} />
         )}
+        <NotFound />
       </Router>
     </ApolloProvider>
   );
