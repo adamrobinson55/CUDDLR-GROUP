@@ -1,69 +1,96 @@
-const { Schema, model, Types } = require('mongoose')
-const bcrypt = require('bcrypt')
-
+const { Schema, model, Types } = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
-    id: {
-        type: Number,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
+  id: {
+    type: Number,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  friends: [
+    {
+      type: Types.ObjectId,
+      ref: "user",
     },
-    email: {
-        type: String,
-        unique: true,
-        required: true
+  ],
+  favorites: [
+    {
+      type: Types.ObjectId,
+      ref: "lobby",
     },
-    name: {
-        type: String,
-        unique: true,
-        required: true
+  ],
+});
+
+var friendSchema = new Schema({
+  requester: {
+    type: Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  recipient: {
+    type: Types.ObjectId,
+    ref: "user",
+    required: true,
+  },
+  status: {
+    type: Number,
+    required: true,
+  },
+  friendList: [
+    {
+      friendId: { type: Types.ObjectId, ref: "User" },
+      friendName: { type: String, default: "" },
     },
-    password: {
-        type: String,
-        required: true
-    },
-    friends: [{
-        type: Types.ObjectId,
-        ref: 'user'
-    }],
-    favorites: [{
-        type: Types.ObjectId,
-        ref: 'lobby'
-    }]
-})
+  ],
+  totalRequest: { type: Number, default: 0 },
+});
 
-var friendSchema = new Schema ({
-    requester: {
-        type: Types.ObjectId,
-        ref: 'user',
-        required: true
-    }, 
-    recipient: {
-        type: Types.ObjectId,
-        ref: 'user',
-        required: true
-    },
-    status: {
-        type: Number,
-        required: true
-    }
-})
+module.exports.createUser = function (newUser, callback) {
+  bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.hash(newUser.password, salt, function (err, hash) {
+      newUser.password = hash;
+      newUser.save(callback);
+    });
+  });
+};
 
-userSchema.pre('save', async function(next) {
-    if(this.isNew || this.isModified('password')) {
-        this.password = await bcrypt.hash(this.password, 8)
-    }
+module.exports.getUserByUsername = function (username, callback) {
+  var query = { username: username };
+  User.findOne(query, callback);
+};
 
-    next()
-})
+module.exports.getUserById = function (id, callback) {
+  User.findById(id, callback);
+};
 
-userSchema.methods.comparePassword = function(password) {
-    return bcrypt.compare(password, this.password)
-}
+userSchema.pre("save", async function (next) {
+  if (this.isNew || this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 8);
+  }
 
-const User = model('user', userSchema)
-const Friend = model('friend', friendSchema)
+  next();
+});
 
-module.exports = Friend
-module.exports = User
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compare(password, this.password);
+};
+
+const User = model("user", userSchema);
+const Friend = model("friend", friendSchema);
+
+module.exports = Friend;
+module.exports = User;
