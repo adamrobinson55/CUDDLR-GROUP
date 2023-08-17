@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react'
-//import io from "socket.io-client"
-//const socket = io.connect("http://localhost:3001")
+import { Link } from "react-router-dom"
+import { QUERY_SINGLE_USER } from '../utils/queries'
+import { useQuery } from '@apollo/client'
 
 export default function Chat ({ socket, username, room }) {
+    const userId = ''
     const [message, setMessage] = useState("")
     const [messageList, setMessageList] = useState([])
+    const { loading, data } = useQuery(QUERY_SINGLE_USER, {
+        variables: { id: userId} //Might not be optimal not getting UserID
+    })
 
     const sendMessage = async () => {
         if (message !=="") {
@@ -33,9 +38,18 @@ export default function Chat ({ socket, username, room }) {
     return (
         <>
             <div>
-                {messageList.map((content) => {
-                    return <h1>{content.message}</h1>
-                })}
+                <div>
+                    {messageList.map((content) => {
+                        return (
+                            <div>
+                                <div>{content.message}</div>
+                                <div>
+                                    <p>{content.time}</p>
+                                    <Link to={{ pathname: `/user/${content.writer.id}`}}>{content.writer}</Link>
+                                </div>
+                            </div>
+                        )})}
+                </div>
                 <input
                 className="w-max self-baseline" 
                 placeholder="message"

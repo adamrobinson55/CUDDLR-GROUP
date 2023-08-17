@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_ALL_LOBBIES } from "../utils/queries";
 
-export default function Home {
-    const {loading, data } = useQuery(QUERY_ALL_LOBBIES, {
+export default function Home() {
+    const { loading, data } = useQuery(QUERY_ALL_LOBBIES, {
         fetchPolicy: "no-cache"
     })
 
