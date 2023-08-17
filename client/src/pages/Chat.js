@@ -37,28 +37,31 @@ export default function Chat ({ socket, username, room }) {
 
     return (
         <>
-            <div>
+            <div className='flex justify-center grid grid-rows-2'>
                 <div>
                     {messageList.map((content) => {
                         return (
                             <div>
                                 <div>{content.message}</div>
-                                <div>
-                                    <p>{content.time}</p>
-                                    <Link to={{ pathname: `/user/${content.writer.id}`}}>{content.writer}</Link>
+                                <div className='grid grid-cols-2'>
+                                    <p className='w-14'>{content.time}</p>
+                                    <Link to={{ pathname: `/user/${content.writer.id}`}}
+                                    className='w-14'>{content.writer}</Link>
                                 </div>
                             </div>
                         )})}
                 </div>
-                <input
-                className="w-max self-baseline" 
-                placeholder="message"
-                value={message}
-                onChange={(event) => {
-                    setMessage(event.target.value)
-                }}
-                onKeyDown={(event) => {event.key === "Enter" && sendMessage()}}/>
-                <button onClick={sendMessage}> &#10559; </button>
+                <div>
+                    <input
+                    className="w-max self-baseline" 
+                    placeholder="message"
+                    value={message}
+                    onChange={(event) => {
+                        setMessage(event.target.value)
+                    }}
+                    onKeyDown={(event) => {event.key === "Enter" && sendMessage()}}/>
+                    <button onClick={sendMessage}> &#10559; </button>
+                </div>
             </div>
 
             <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
