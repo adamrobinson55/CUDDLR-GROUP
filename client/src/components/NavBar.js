@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
-// import { useQuery } from 'react-query';
+// import { useMutation, useQuery } from '@apollo/client';
+// import { QUERY_SINGLE_USER } from '../utils/queries';
+// import { useParams } from 'react-router-dom';
 import ProfileIcon from './ProfileIcon';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
@@ -12,9 +14,20 @@ const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
+
+  // const { userId } = useParams()
+
+  // const { loading, data } = useQuery(QUERY_SINGLE_USER, {
+  //   variables: { id: userId }
+  // })
+
+  // console.log(user)
+  // const user = data.user || {}
+
+
   function formatName(user) {
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!')
     console.log(user.userName);
+
     return user.userName
   };
   
