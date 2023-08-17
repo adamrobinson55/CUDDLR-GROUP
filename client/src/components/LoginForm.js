@@ -13,14 +13,6 @@ const LoginForm = () => {
 
   const [login, { error }] = useMutation(LOGIN_USER)
 
-  useEffect(() => {
-    if (error) {
-      setShowAlert(true);
-    } else {
-      setShowAlert(false);
-    }
-  }, [error]);
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -46,7 +38,7 @@ const LoginForm = () => {
 
 
       console.log(data)
-      const { token, user } = data.loginUser
+      const { token, user } = data.login
       Auth.login(token);
     } catch (err) {
       console.error(err);
