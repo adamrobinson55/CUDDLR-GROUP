@@ -16,7 +16,7 @@ export default function NewLobbyForm() {
         }
     )
 
-    const [createLobby, {error}] = useMutation(CREATE_LOBBY)
+    const [createLobby, { error }] = useMutation(CREATE_LOBBY)
 
     const nameInputHandler = (e) => {
         setUserInput((prevState) => {
@@ -33,7 +33,7 @@ export default function NewLobbyForm() {
 
     const addTag = () => {
         if (tagInput.trim() !== '') {
-            const updatedLobbyTags = [...lobbyTags, {name: tagInput.trim()}]
+            const updatedLobbyTags = [...lobbyTags, { name: tagInput.trim() }]
             setLobbyTags(updatedLobbyTags)
             console.log('LOBBY TAGS: ', updatedLobbyTags)
             setUserInput((prevState) => {

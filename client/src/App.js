@@ -3,29 +3,29 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import io from "socket.io-client";
 // import Chat from './pages/Chat';
+import Chat from './pages/Chat';
+import NavBar from './components/NavBar'
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 import NewLobbyForm from "./components/NewLobbyForm";
-import Chat from "./pages/Chat";
 //import { User } from '../../server/models';
 import Home from "./pages/Home";
-import NavBar from "./components/NavBar";
 
-const socket = io.connect("http://localhost:3001");
+const socket = io.connect("http://localhost:3001", {
+  reconnectionDelay: 1000,
+  reconnection: true,
+  reconnectionAttemps: 10,
+  transports: ['websocket'],
+  agent: false,
+  upgrade: false,
+  rejectUnauthorized: false
+});
 
 
 const client = new ApolloClient({
   uri: "/graphql",
   cache: new InMemoryCache(),
 });
-
-function formatName(user) {
-  return user.userName
-};
-
-const user = {
-  userName: 'Harry',
-};
 
 export default function App() {
   const [username, setUserName] = useState("");
@@ -59,7 +59,6 @@ export default function App() {
               </p>
             </div>
             <div className="w-screen">
-              <NotFound />
               <input
                 type="text"
                 placeholder="John..."
@@ -80,6 +79,7 @@ export default function App() {
         ) : (
           <Chat socket={socket} username={username} room={room} />
         )}
+        <NotFound />
       </Router>
     </ApolloProvider>
   );
