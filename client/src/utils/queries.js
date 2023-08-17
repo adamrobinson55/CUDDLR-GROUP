@@ -21,17 +21,17 @@ query me {
 export const QUERY_ALL_LOBBIES = gql`
 query allLobbies {
     allLobbies {
-        _id
+        id
         name
     }
 }`
 
 export const QUERY_SINGLE_USER = gql`
-query user($userId: ID) {
+query user($userId: String) {
     user(id: $userId) {
         username
-        aboutme
         email
+        aboutme
     }
 }
 `

@@ -13,14 +13,6 @@ const LoginForm = () => {
 
   const [login, { error }] = useMutation(LOGIN_USER)
 
-  useEffect(() => {
-    if (error) {
-      setShowAlert(true);
-    } else {
-      setShowAlert(false);
-    }
-  }, [error]);
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -38,15 +30,15 @@ const LoginForm = () => {
 
     try {
       const { data } = await login({
-        variables: { 
-          ...userFormData 
+        variables: {
+          ...userFormData
         },
       });
 
 
 
       console.log(data)
-      const { token, user } = data.loginUser
+      const { token, user } = data.login
       Auth.login(token);
     } catch (err) {
       console.error(err);
@@ -61,44 +53,47 @@ const LoginForm = () => {
   };
 
   return (
-    <>
+    <div className="p-8 bg-primary rounded-lg">
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           Something went wrong with your login credentials!
         </Alert>
-        <Form.Group className='mb-3'>
-          <Form.Label htmlFor='email'>Email</Form.Label>
-          <Form.Control
+        <div className="mb-3">
+          <label htmlFor='email' className="block text-white">Email</label>
+          <input
             type='text'
             placeholder='Your email'
             name='email'
             onChange={handleInputChange}
             value={userFormData.email}
             required
+            className="w-full px-3 py-2 rounded border bg-white text-gray-700"
           />
-          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
-        </Form.Group>
+          <div className="invalid-feedback text-red-500">Email is required!</div>
+        </div>
 
-        <Form.Group className='mb-3'>
-          <Form.Label htmlFor='password'>Password</Form.Label>
-          <Form.Control
+        <div className="mb-3">
+          <label htmlFor='password' className="block text-white">Password</label>
+          <input
             type='password'
             placeholder='Your password'
             name='password'
             onChange={handleInputChange}
             value={userFormData.password}
             required
+            className="w-full px-3 py-2 rounded border bg-white text-gray-700"
           />
-          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
-        </Form.Group>
-        <Button
+          <div className="invalid-feedback text-red-500">Password is required!</div>
+        </div>
+        <button
           disabled={!(userFormData.email && userFormData.password)}
           type='submit'
-          variant='success'>
+          className="w-full py-2 rounded bg-green-500 text-white font-semibold hover:bg-green-600"
+        >
           Submit
-        </Button>
+        </button>
       </Form>
-    </>
+    </div>
   );
 };
 

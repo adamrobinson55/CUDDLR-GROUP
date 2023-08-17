@@ -11,8 +11,8 @@ export const CREATE_LOBBY = gql`
     }`
 
 export const LOGIN_USER = gql`
-    mutation login($name: String!, $password: String!) {
-      login(name: $name, password: $password) {
+    mutation login($email: String!, $password: String!) {
+      login(email: $email, password: $password) {
         token
         user {
           _id
@@ -23,8 +23,8 @@ export const LOGIN_USER = gql`
   `
 
 export const CREATE_USER = gql`
-mutation createUser($email: String!, $name: String!, $password: String!) {
-    createUser(email: $email, name: $name, password: $password) {
+mutation createUser($email: String!, $username: String!, $password: String!) {
+    createUser(email: $email, username: $username, password: $password) {
       token
       user {
         _id

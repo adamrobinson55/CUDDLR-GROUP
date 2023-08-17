@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
+// import { useMutation, useQuery } from '@apollo/client';
+// import { QUERY_SINGLE_USER } from '../utils/queries';
+// import { useParams } from 'react-router-dom';
+import ProfileIcon from './ProfileIcon';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
 
@@ -10,65 +14,99 @@ const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
+  let curentUserData = ''
+  // const { userId } = useParams()
+
+  // const { loading, data } = useQuery(QUERY_SINGLE_USER, {
+  //   variables: { id: userId }
+  // })
+
+  // console.log(user)
+  // const user = data.user || {}
+
+
+  // function formatName(user) {
+  //   console.log(user.userName);
+
+  //   return user.userName
+  // };
+
+  // const user = {
+  //   userName: 'Harry',
+  // };
+
   return (
     <>
-      <Navbar bg='dark' variant='dark' expand='lg'>
+      <Navbar className="bg-blue-500 flex justify-between">
         <Container fluid>
-          <Navbar.Brand as={Link} to='/'>
-            Lmao
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls='navbar' />
-          <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
-            <Nav className='ml-auto d-flex'>
-              <Nav.Link as={Link} to='/'>
-                heyo
+          <Navbar.Brand className="text-white">
+            {Auth.loggedIn() ? (
+              <Nav.Link as={Link} to={'/user/'}>
+                <h1 className='text-white'>Welcome To Hydruh, {Auth.getProfile().username}</h1>
               </Nav.Link>
-              {/* if user is logged in show saved books and logout */}
-              {Auth.loggedIn() ? (
-                <>
-                  <Nav.Link as={Link} to='/saved'>
-                    wayo
+            ) : (
+              <h1 className="text-white">Welcome To Hydruh</h1>
+            )}
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbar" />
+          <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">
+            <div className=''>
+              <Nav className="grid grid-cols-2 gap-x-1 p-2">
+                <Nav.Link className="text-white" as={Link} to="/">
+                  Home page
+                </Nav.Link>
+                {Auth.loggedIn() ? (
+                  <>
+                    <Nav.Link className="text-white" onClick={Auth.logout}>
+                      Logout
+                    </Nav.Link>
+                  </>
+                ) : (
+                  <Nav.Link
+                    className="text-white"
+                    onClick={() => setShowModal(true)}
+                  >
+                    Login/Sign Up
                   </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
-                </>
-              ) : (
-                <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
-              )}
-            </Nav>
+                )}
+              </Nav>
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {/* set modal data up */}
       <Modal
-        size='lg'
+        size="lg"
         show={showModal}
         onHide={() => setShowModal(false)}
-        aria-labelledby='signup-modal'>
-        {/* tab container to do either signup or login component */}
-        <Tab.Container defaultActiveKey='login'>
-          <Modal.Header closeButton>
-            <Modal.Title id='signup-modal'>
-              <Nav variant='pills'>
-                <Nav.Item>
-                  <Nav.Link eventKey='login'>Login</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey='signup'>Sign Up</Nav.Link>
-                </Nav.Item>
-              </Nav>
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Tab.Content>
-              <Tab.Pane eventKey='login'>
-                <LoginForm handleModalClose={() => setShowModal(false)} />
-              </Tab.Pane>
-              <Tab.Pane eventKey='signup'>
-                <SignUpForm handleModalClose={() => setShowModal(false)} />
-              </Tab.Pane>
-            </Tab.Content>
-          </Modal.Body>
-        </Tab.Container>
+        className="flex border border-blue-500 absolute top-[300px] left-1/3 round-lg bg-white w-1/3"
+        aria-labelledby="signup-modal"
+      >
+        <div className="">
+          <Tab.Container defaultActiveKey="login">
+            {/* <Modal.Header closeButton>
+              <Modal.Title id="signup-modal">
+                <Nav className="flex border rounded-lg overflow-hidden">
+                  <Nav.Item>
+                    <Nav.Link eventKey="login"></Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="signup"></Nav.Link>
+                  </Nav.Item>
+                </Nav>
+              </Modal.Title>
+            </Modal.Header> */}
+            <Modal.Body>
+              <Tab.Content>
+                <Tab.Pane eventKey="login">
+                  <LoginForm handleModalClose={() => setShowModal(false)} />
+                </Tab.Pane>
+                <Tab.Pane eventKey="signup">
+                  <SignUpForm handleModalClose={() => setShowModal(false)} />
+                </Tab.Pane>
+              </Tab.Content>
+            </Modal.Body>
+          </Tab.Container>
+        </div>
       </Modal>
     </>
   );

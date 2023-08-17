@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import { QUERY_ALL_LOBBIES } from "../utils/queries";
 
 export default function Home() {
-    const { loading, data } = useQuery(QUERY_ALL_LOBBIES, {
+    const {loading, data } = useQuery(QUERY_ALL_LOBBIES, {
         fetchPolicy: "no-cache"
     })
 
@@ -11,10 +11,10 @@ export default function Home() {
 
   return (
     <>
-      {lobbyList.map((lobby) => {
+      {lobbyList.map((lobby, index) => {
         return (
-          <li key={lobby.id}>
-            <Link to={{ pathname: `/lobby/${lobby.id}` }}>{lobby.name}</Link>
+          <li key={index} className="">
+            <Link className="text-white" to={{ pathname: `/lobby/${lobby.id}` }}>{lobby.name}</Link>
           </li>
         );
       })}

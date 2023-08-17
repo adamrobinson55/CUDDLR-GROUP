@@ -13,8 +13,8 @@ const typeDefs = gql`
     }
     
     type Lobby {
+        id: ID
         name: String
-        id: String
         users: [User]
         tags: [Tag]
     }
@@ -33,28 +33,21 @@ const typeDefs = gql`
         user: User
     }
 
-    type Message {
-        text: String
-        username: String
-        user_id: String
-    }
-
     type Query {
         me(id: ID): User
-        user(id: ID): User
+        user(id: String): User
         lobby: Lobby
         allUsers: [User]
         allLobbies: [Lobby]
-        allMessages: [Message]
     }
 
     type Mutation {
         addFriend(id: ID): User
+        addFavoriteLobby(id: ID): Lobby
         createUser(email: String!, username: String!, password: String!): Auth
         createLobby(name: String, tags: [TagInput]): Lobby
         createTag(name: String!): Tag
-        createMessage(text: String!, username: String!, user_id: String!): Message
-        login(name: String!, password: String!): Auth
+        login(email: String!, password: String!): Auth
         userJoinLobby(name: String!): Lobby
         userDisconnectLobby(name: String!): Lobby
     }

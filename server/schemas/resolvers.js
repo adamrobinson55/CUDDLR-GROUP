@@ -1,6 +1,7 @@
 const { AuthenticationError } = require("apollo-server-express")
 const { User, Lobby, Tag } = require("../models")
 const { signToken } = require('../utils/auth');
+const { v4: uuidv4 } = require('uuid');
 
 const resolvers = {
     Query: {
@@ -8,7 +9,10 @@ const resolvers = {
             return await User.findById(context._id)
         },
         user: async function (parent, args) {
-            return await User.findById(args.id)
+            console.log(args, "ARGS")
+            const userData = await User.findById(args.id)
+            console.log(userData)
+            return userData
         },
         lobby: async function (parent, args) {
             return await Lobby.findById(args.id)
@@ -21,9 +25,30 @@ const resolvers = {
         }
     },
     Mutation: {
+        addFavoriteLobby: async function(parent, args, context) {
+            console.log('args data: ', args)
+            //lobby frontend fave button should return the lobbies schema data?
+            const newLobby = await Lobby.findById(args._id)
+            if(!newLobby) {
+                console.log('No Lobby Found with this ID :^(')
+                return null
+            }
+            console.log('New Lobby Data: ', newLobby)
+            const newLobbyId = newLobby._id
+
+            return await User.findOneAndUpdate(
+                {_id: context._id},
+                {
+                    $addToSet: { favorites: newLobbyId }
+                },
+                {
+                    new: true
+                }
+            )
+        },
         addFriend: async function (parent, args, context) {
             console.log('args data: ', args)
-            const newFriend = await User.findById(args.id)
+            const newFriend = await User.findById(args._id)
             if(!newFriend) {
                 console.log('No Friend Found With This ID :^)')
                 return null
@@ -69,11 +94,11 @@ const resolvers = {
             )
         },
         //this works in theory
-        login: async function (parent, {name, password}) {
-            const user = await User.findOne({name})
+        login: async function (parent, {email, password}) {
+            const user = await User.findOne({email})
 
             if(!user) {
-                throw new AuthenticationError('No user found with this name')
+                throw new AuthenticationError('No user found with this email')
             }
 
             const correctPw = await user.comparePassword(password)
@@ -84,7 +109,7 @@ const resolvers = {
 
             const token = signToken(user)
 
-            return (token, user)
+            return {token, user}
         },
         // createUser works
         createUser: async function (parent, args) {
@@ -98,7 +123,9 @@ const resolvers = {
             console.log('ARGS: ', args)
             const bulkTags = await Tag.insertMany(args.tags)
             console.log(bulkTags)
+            const newId = uuidv4()
             const newLobby = await (await Lobby.create({
+                id: newId,
                 name: args.name,
                 tags: bulkTags.map(tag => tag._id)
             })).populate('tags')

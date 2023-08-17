@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
+import io from "socket.io-client"
+import Auth from '../utils/auth';
+const socket = io.connect("http://localhost:3001")
+
+const username = Auth.getProfile().username
 import { Link } from "react-router-dom"
 import { QUERY_SINGLE_USER } from '../utils/queries'
 import { useQuery } from '@apollo/client'
 
 export default function Chat ({ socket, username, room }) {
-    const userId = ''
     const [message, setMessage] = useState("")
     const [messageList, setMessageList] = useState([])
     const { loading, data } = useQuery(QUERY_SINGLE_USER, {
@@ -12,7 +16,7 @@ export default function Chat ({ socket, username, room }) {
     })
 
     const sendMessage = async () => {
-        if (message !=="") {
+        if (message !== "") {
             const payload = {
                 room: room,
                 writer: username,
@@ -65,7 +69,6 @@ export default function Chat ({ socket, username, room }) {
             </div>
 
             <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
-            <script src="/chat.js"></script>
         </>
     )
 }
