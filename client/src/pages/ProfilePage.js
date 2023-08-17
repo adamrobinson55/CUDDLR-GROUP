@@ -10,7 +10,7 @@ export default function ProfilePage() {
   const [favList, setFavList] = useState([])
 
   // set up states
- //console.log(id)
+  console.log(id)
   const { loading, data } = useQuery(QUERY_SINGLE_USER, {
     variables: { id: id } // would this work? (ask TA)
   }) 
