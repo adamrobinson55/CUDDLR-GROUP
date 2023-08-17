@@ -5,7 +5,7 @@ A chatroom application that allows you to find active chats about  your interest
 
 
 ## Installation
-npm instal for dependancies
+npm install for dependancies
 
 [MIT License](https://choosealicense.com/licenses/mit/)
 
@@ -13,7 +13,7 @@ npm instal for dependancies
 Chatting with users, creating subject rooms
 
 ## Credits
-[Julissa Ortiz](), [Lauren Haas](https://github.com/laurenraehaas), [Leng Chang](), and [Jake Eik](https://github.com/JelloElephant)
+[Julissa Ortiz](https://github.com/julissaortiz), [Lauren Haas](https://github.com/laurenraehaas), [Leng Chang](https://github.com/Ren-kun235), and [Jake Eik](https://github.com/JelloElephant)
 
 ## License
 MIT

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { ADD_FRIEND } from '../utils/mutations'
 import { QUERY_SINGLE_USER } from '../utils/queries'
@@ -11,20 +11,31 @@ export default function ProfilePage() {
 
   // set up states
   console.log(id)
-  const { loading, data } = useQuery(QUERY_SINGLE_USER, {
-    variables: { id: id } // would this work? (ask TA)
-  }) 
+  // const { loading, data } = useQuery(QUERY_SINGLE_USER, {
+  //   variables: { id: id } // would this work? (ask TA)
+  // }) 
+
+  const data = []
 
   const [ addFriend, { error }] = useMutation(ADD_FRIEND, { 
     variables: { id: id } // ask TA if addFriend needs variable here or on line 45
   }) 
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
+  useEffect(() => {
+    if (data.friends) {
+      setFriendList(data.friends)
+      setFavList(data.friends)
+    }
+  }, [data.friends])
 
-  setFriendList(data.friends)
-  setFavList(data.favorites)
+  // if (loading) {
+  //   return <div>Loading...</div>
+  // }
+
+  
+  // setFriendList(data.friends)
+  
+  // setFavList(data.favorites)
   
  if(error) {
     return console.error("There has been an error")
@@ -67,7 +78,7 @@ export default function ProfilePage() {
             </p>
           </div>
           <div className="mt-4">
-            <button onClick={addFriend} className="bg-blue-500 text-white px-4 py-2 rounded-md"> 
+            <button onClick={handleAddFriend} className="bg-blue-500 text-white px-4 py-2 rounded-md"> 
             {/* ask TA about onClick */}
               Add Friend
             </button>

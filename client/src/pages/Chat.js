@@ -1,19 +1,26 @@
-import { useEffect, useState } from 'react'
-import io from "socket.io-client"
-import Auth from '../utils/auth';
-// const socket = io.connect("http://localhost:3001")
+import { useContext, useEffect, useState } from 'react'
+import { io } from "socket.io-client"
+import AuthService from '../utils/auth';
+import { Link, useParams } from "react-router-dom"
+import { QUERY_SINGLE_USER } from '../utils/queries'
+import { useQuery } from '@apollo/client'
 
-// const username = Auth.getProfile().username
+const socket = io('http://localhost:3001')
 
-export default function Chat({ socket, username, room }) {
+export default function Chat () {
+    const { id } = useParams()
     const [message, setMessage] = useState("")
     const [messageList, setMessageList] = useState([])
+    const [roomId, setRoomId] = useState(null)
+    const user = AuthService.getProfile()
+    console.log(user)
 
     const sendMessage = async () => {
         if (message !== "") {
             const payload = {
-                room: room,
-                writer: username,
+                room: id,
+                writer: user.data.username,
+                writerId: user.data._id,
                 message: message,
                 time: new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes()
             }
@@ -31,31 +38,44 @@ export default function Chat({ socket, username, room }) {
         socket.on("recieve_message", (message) => {
             setMessageList((list) => [...list, message])
         })
-    }, [socket])
+
+        socket.on('room_joined', (room) => {
+            setRoomId(room)
+        })
+
+        return () => {
+            socket.off('recieve_message')
+            socket.off('room_joined')
+        }
+    }, [])
 
     return (
         <>
-            <div className="border border-blue-500 rounded-lg p-4 w-96">
-                {messageList.map((content) => {
-                    return <h1 key={content.id}>{content.message}</h1>;
-                })}
-                <input
-                    className="w-full border border-blue-500 rounded px-2 py-1"
+            <div className='flex justify-center grid grid-rows-2'>
+                <div>
+                    {messageList.map((content) => {
+                        return (
+                            <div>
+                                <div>{content.message}</div>
+                                <div className='grid grid-cols-2'>
+                                    <p className='w-14'>{content.time}</p>
+                                    <Link to={{ pathname: `/user/${content.writerId}`}}
+                                    className='w-14 text-white'>{content.writer}</Link>
+                                </div>
+                            </div>
+                        )})}
+                </div>
+                <div>
+                    <input
+                    className="w-max self-baseline" 
                     placeholder="message"
                     value={message}
                     onChange={(event) => {
-                        setMessage(event.target.value);
+                        setMessage(event.target.value)
                     }}
-                    onKeyDown={(event) => {
-                        event.key === 'Enter' && sendMessage();
-                    }}
-                />
-                <button
-                    onClick={sendMessage}
-                    className="ml-2 px-2 py-1 bg-blue-500 text-white rounded"
-                >
-                    &#10559;
-                </button>
+                    onKeyDown={(event) => {event.key === "Enter" && sendMessage()}}/>
+                    <button onClick={sendMessage}> &#10559; </button>
+                </div>
             </div>
 
             <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
