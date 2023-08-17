@@ -13,8 +13,8 @@ export default function Home() {
     <>
       {lobbyList.map((lobby, index) => {
         return (
-          <li key={index}>
-            <Link to={{ pathname: `/lobby/${lobby.id}` }}>{lobby.name}</Link>
+          <li key={index} className="">
+            <Link className="text-white" to={{ pathname: `/lobby/${lobby.id}` }}>{lobby.name}</Link>
           </li>
         );
       })}

@@ -1,6 +1,7 @@
 const { AuthenticationError } = require("apollo-server-express")
 const { User, Lobby, Tag } = require("../models")
 const { signToken } = require('../utils/auth');
+const { v4: uuidv4 } = require('uuid');
 
 const resolvers = {
     Query: {
@@ -122,7 +123,9 @@ const resolvers = {
             console.log('ARGS: ', args)
             const bulkTags = await Tag.insertMany(args.tags)
             console.log(bulkTags)
+            const newId = uuidv4()
             const newLobby = await (await Lobby.create({
+                id: newId,
                 name: args.name,
                 tags: bulkTags.map(tag => tag._id)
             })).populate('tags')

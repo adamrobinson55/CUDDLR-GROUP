@@ -13,8 +13,8 @@ const typeDefs = gql`
     }
     
     type Lobby {
+        id: ID
         name: String
-        _id: String
         users: [User]
         tags: [Tag]
     }
@@ -35,13 +35,8 @@ const typeDefs = gql`
 
     type Query {
         me(id: ID): User
-<<<<<<< HEAD
         user(id: String): User
         lobby: Lobby
-=======
-        user(id: ID): User
-        lobby(id: ID): Lobby
->>>>>>> a049f548594ef3e4eebf811689145eee45f99f30
         allUsers: [User]
         allLobbies: [Lobby]
     }
@@ -58,14 +53,4 @@ const typeDefs = gql`
     }
 `
 
-// save for later :)
-// type Message {
-//     text: String
-//      username: String
-//      user_id: String
-//  }
-// query
-// allMessages: [Message]
-// mutation
-// createMessage(text: String!, username: String!, user_id: String!): Message
 module.exports = typeDefs
