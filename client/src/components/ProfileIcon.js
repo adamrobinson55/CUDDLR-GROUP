@@ -5,7 +5,7 @@ class ProfileIcon extends Component {
     render() {
       return (
       <div className=''>
-        <FaUser />
+        <FaUser style={{color: 'green'}}/>
       </div>
       ) 
     }
