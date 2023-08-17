@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import io from "socket.io-client"
 import Auth from '../utils/auth';
-const socket = io.connect("http://localhost:3001")
+// const socket = io.connect("http://localhost:3001")
 
-const username = Auth.getProfile().username
+// const username = Auth.getProfile().username
 
 export default function Chat({ socket, username, room }) {
     const [message, setMessage] = useState("")

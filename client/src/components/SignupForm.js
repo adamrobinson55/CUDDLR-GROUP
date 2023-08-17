@@ -72,6 +72,7 @@ const SignupForm = () => {
     </Alert>
 
     <div className='mb-3'>
+      <h2 className='text-white'>Sign Up!</h2>
       <label htmlFor='username' className='block text-white'>Username</label>
       <input
         type='text'

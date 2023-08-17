@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import io from "socket.io-client";
-// import Chat from './pages/Chat';
 import Chat from './pages/Chat';
 import NavBar from './components/NavBar'
 import ProfilePage from "./pages/ProfilePage";
@@ -48,10 +47,10 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/user/:id" element={<ProfilePage />} />
-            <Route path="/lobby/:id" element={<Chat />} />
+            <Route path="/lobby/:id" element={<Chat socket={socket} username={username} room={room} />} />
           </Routes>
         </div>
-        <NewLobbyForm/>
+        <NewLobbyForm />
       </Router>
     </ApolloProvider>
   );
