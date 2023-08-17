@@ -8,6 +8,7 @@ import NavBar from './components/NavBar'
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 import NewLobbyForm from "./components/NewLobbyForm";
+import AuthService from './utils/auth'
 //import { User } from '../../server/models';
 import Home from "./pages/Home";
 
@@ -21,7 +22,6 @@ const socket = io.connect("http://localhost:3001", {
   rejectUnauthorized: false
 });
 
-
 const client = new ApolloClient({
   uri: "/graphql",
   cache: new InMemoryCache(),
@@ -31,6 +31,9 @@ export default function App() {
   const [username, setUserName] = useState("");
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
+
+const currentUser = AuthService.getProfile()
+console.log(currentUser)
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
