@@ -42,9 +42,8 @@ const AppNavbar = () => {
           <Navbar.Brand className="text-white">
             {Auth.loggedIn() ? (
               <Nav.Link as={Link} to={`/user/${Auth.getProfile().data._id}`}>
-                <h1 className='text-white'>Welcome To Hydruh, {Auth.getProfile().data.username}
-                  <ProfileIcon />
-                </h1>
+                <h1 className='text-white'>Welcome To Hydruh, {Auth.getProfile().data.username}</h1>
+                <ProfileIcon />
               </Nav.Link>
             ) : (
               <h1 className="text-white">Welcome To Hydruh</h1>
