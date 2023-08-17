@@ -11,7 +11,7 @@ import NewLobbyForm from "./components/NewLobbyForm";
 //import { User } from '../../server/models';
 import Home from "./pages/Home";
 
-const socket = io.connect("http://localhost:3002", {
+const socket = io.connect("http://localhost:3001", {
   reconnectionDelay: 1000,
   reconnection: true,
   reconnectionAttemps: 10,
@@ -67,7 +67,6 @@ export default function App() {
               </p>
             </div>
             <div className="w-screen">
-              <NotFound />
               <input
                 type="text"
                 placeholder="John..."

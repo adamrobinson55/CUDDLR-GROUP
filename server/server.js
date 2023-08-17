@@ -66,16 +66,13 @@ io.on('connection', (socket) => {
     })
     
 });
-serverHttp.listen(3002, () => {
-    console.log(`Socket is listening on http://Localhost:3002`)
-})
 
 async function startServer(typeDefs, resolvers) {
     await apolloServer.start();
     apolloServer.applyMiddleware({ app })
 
     db.once('open', () => {
-        app.listen(PORT, () => {
+        serverHttp.listen(PORT, () => {
             console.log(`Running on http://localhost:${PORT}`);
             console.log(`Use GraphQL at http://localhost:${PORT}${apolloServer.graphqlPath}`);
         });

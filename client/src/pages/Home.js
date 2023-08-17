@@ -11,9 +11,9 @@ export default function Home() {
 
   return (
     <>
-      {lobbyList.map((lobby) => {
+      {lobbyList.map((lobby, index) => {
         return (
-          <li key={lobby.id}>
+          <li key={index}>
             <Link to={{ pathname: `/lobby/${lobby.id}` }}>{lobby.name}</Link>
           </li>
         );

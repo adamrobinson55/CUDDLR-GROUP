@@ -12,27 +12,27 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar bg='dark' variant='dark' expand='lg'>
+      <Navbar expand='lg' className='bg-blue-500 text-black'>
         <Container fluid>
-          <Navbar.Brand as={Link} to='/'>
-            Lmao
+          <Navbar.Brand className='text-white' as={Link} to='/'>
+            <h1>Welcome To Hydruh</h1>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
-              <Nav.Link as={Link} to='/'>
-                heyo
+              <Nav.Link className='text-white' as={Link} to='/'>
+                Home page
               </Nav.Link>
-              {/* if user is logged in show saved books and logout */}
+              {/* if user is logged in show logout */}
               {Auth.loggedIn() ? (
                 <>
-                  <Nav.Link as={Link} to='/saved'>
+                  <Nav.Link className='text-white' as={Link} to='/saved'>
                     wayo
                   </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                  <Nav.Link className='text-white' onClick={Auth.logout}>Logout</Nav.Link>
                 </>
               ) : (
-                <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
+                <Nav.Link className='text-white' onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
               )}
             </Nav>
           </Navbar.Collapse>
@@ -43,12 +43,14 @@ const AppNavbar = () => {
         size='lg'
         show={showModal}
         onHide={() => setShowModal(false)}
+        className='flex border border-blue-500 absolute top-[300px] left-1/3 round-lg'
         aria-labelledby='signup-modal'>
         {/* tab container to do either signup or login component */}
+        <div className='w-2/3'>
         <Tab.Container defaultActiveKey='login'>
           <Modal.Header closeButton>
             <Modal.Title id='signup-modal'>
-              <Nav variant='pills'>
+              <Nav className="flex border rounded-lg overflow-hidden">
                 <Nav.Item>
                   <Nav.Link eventKey='login'>Login</Nav.Link>
                 </Nav.Item>
@@ -69,6 +71,7 @@ const AppNavbar = () => {
             </Tab.Content>
           </Modal.Body>
         </Tab.Container>
+        </div>
       </Modal>
     </>
   );

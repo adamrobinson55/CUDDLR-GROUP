@@ -105,7 +105,7 @@ const resolvers = {
 
             const token = signToken(user)
 
-            return (token, user)
+            return {token, user}
         },
         // createUser works
         createUser: async function (parent, args) {
