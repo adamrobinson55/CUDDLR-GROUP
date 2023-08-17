@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
+// import { useQuery } from 'react-query';
 import ProfileIcon from './ProfileIcon';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
@@ -12,6 +13,8 @@ const AppNavbar = () => {
   const [showModal, setShowModal] = useState(false);
 
   function formatName(user) {
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!')
+    console.log(user.userName);
     return user.userName
   };
   
@@ -33,14 +36,14 @@ const AppNavbar = () => {
                   heyo
                 </Nav.Link>
                 {/* if user is logged in show saved books and logout */}
-                {Auth.loggedIn() &&
+                {/* {Auth.loggedIn() && */}
                 <Nav.Link href="#profile">
                   <h4>
-                    Welcome, {user}!
+                    Welcome, {formatName(user)}!
                     <ProfileIcon />
                   </h4>
                 </Nav.Link>
-                }
+                {/* } */}
                 {Auth.loggedIn() ? (
                   <>
                     <Nav.Link as={Link} to='/saved'>
