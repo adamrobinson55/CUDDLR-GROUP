@@ -13,10 +13,19 @@ import NavBar from "./components/NavBar";
 
 const socket = io.connect("http://localhost:3001");
 
+
 const client = new ApolloClient({
   uri: "/graphql",
   cache: new InMemoryCache(),
 });
+
+function formatName(user) {
+  return user.userName
+};
+
+const user = {
+  userName: 'Harry',
+};
 
 export default function App() {
   const [username, setUserName] = useState("");
