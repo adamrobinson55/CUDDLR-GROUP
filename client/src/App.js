@@ -32,8 +32,6 @@ export default function App() {
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
 
-const currentUser = AuthService.getProfile()
-console.log(currentUser)
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
@@ -53,36 +51,7 @@ console.log(currentUser)
             <Route path="/lobby/:id" element={<Chat />} />
           </Routes>
         </div>
-        {!showChat ? (
-          <div>
-            <div className="bg-blue-500 text-white p-4">
-              <h1 className="text-2xl font-semibold">Welcome to Hydruh</h1>
-              <p className="mt-1 text-sm">
-                It'd be cool to generage unique lines here :^D
-              </p>
-            </div>
-            <div className="w-screen">
-              <input
-                type="text"
-                placeholder="John..."
-                onChange={(event) => {
-                  setUserName(event.target.value);
-                }}
-              />
-              <input
-                type="text"
-                placeholder="Room ID..."
-                onChange={(event) => {
-                  setRoom(event.target.value);
-                }}
-              />
-              <button onClick={joinRoom}>Join A Room</button>
-            </div>
-          </div>
-        ) : (
-          <Chat socket={socket} username={username} room={room} />
-        )}
-        <NotFound />
+        <NewLobbyForm/>
       </Router>
     </ApolloProvider>
   );

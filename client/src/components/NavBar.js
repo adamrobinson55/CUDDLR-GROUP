@@ -14,7 +14,7 @@ const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
-
+  let curentUserData = ''
   // const { userId } = useParams()
 
   // const { loading, data } = useQuery(QUERY_SINGLE_USER, {
@@ -25,47 +25,52 @@ const AppNavbar = () => {
   // const user = data.user || {}
 
 
-  function formatName(user) {
-    console.log(user.userName);
+  // function formatName(user) {
+  //   console.log(user.userName);
 
-    return user.userName
-  };
-  
-  const user = {
-    userName: 'Harry',
-  };
+  //   return user.userName
+  // };
+
+  // const user = {
+  //   userName: 'Harry',
+  // };
 
   return (
     <>
-      <Navbar expand="lg" className="bg-blue-500 flex justify-end">
+      <Navbar className="bg-blue-500 flex justify-between">
         <Container fluid>
-          <Navbar.Brand className="text-white" as={Link} to="/">
-            <h1>Welcome To Hydruh</h1>
+          <Navbar.Brand className="text-white">
+            {Auth.loggedIn() ? (
+              <Nav.Link as={Link} to={'/user/'}>
+                <h1 className='text-white'>Welcome To Hydruh, {Auth.getProfile().username}</h1>
+              </Nav.Link>
+            ) : (
+              <h1 className="text-white">Welcome To Hydruh</h1>
+            )}
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbar" />
           <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">
-            <Nav className="ml-auto d-flex">
-              <Nav.Link className="text-white" as={Link} to="/">
-                Home page
-              </Nav.Link>
-              {Auth.loggedIn() ? (
-                <>
-                  <Nav.Link className="text-white" as={Link} to="/saved">
-                    Don't Worry about it :^D
-                  </Nav.Link>
-                  <Nav.Link className="text-white" onClick={Auth.logout}>
-                    Logout
-                  </Nav.Link>
-                </>
-              ) : (
-                <Nav.Link
-                  className="text-white"
-                  onClick={() => setShowModal(true)}
-                >
-                  Login/Sign Up
+            <div className=''>
+              <Nav className="grid grid-cols-2 gap-x-1 p-2">
+                <Nav.Link className="text-white" as={Link} to="/">
+                  Home page
                 </Nav.Link>
-              )}
-            </Nav>
+                {Auth.loggedIn() ? (
+                  <>
+                    <Nav.Link className="text-white" onClick={Auth.logout}>
+                      Logout
+                    </Nav.Link>
+                  </>
+                ) : (
+                  <Nav.Link
+                    className="text-white"
+                    onClick={() => setShowModal(true)}
+                  >
+                    Login/Sign Up
+                  </Nav.Link>
+                )}
+              </Nav>
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>
@@ -73,23 +78,23 @@ const AppNavbar = () => {
         size="lg"
         show={showModal}
         onHide={() => setShowModal(false)}
-        className="flex border border-blue-500 absolute top-[300px] left-1/3 round-lg"
+        className="flex border border-blue-500 absolute top-[300px] left-1/3 round-lg bg-white w-1/3"
         aria-labelledby="signup-modal"
       >
-        <div className="w-2/3">
+        <div className="">
           <Tab.Container defaultActiveKey="login">
-            <Modal.Header closeButton>
+            {/* <Modal.Header closeButton>
               <Modal.Title id="signup-modal">
                 <Nav className="flex border rounded-lg overflow-hidden">
                   <Nav.Item>
-                    <Nav.Link eventKey="login">Login</Nav.Link>
+                    <Nav.Link eventKey="login"></Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="signup">Sign Up</Nav.Link>
+                    <Nav.Link eventKey="signup"></Nav.Link>
                   </Nav.Item>
                 </Nav>
               </Modal.Title>
-            </Modal.Header>
+            </Modal.Header> */}
             <Modal.Body>
               <Tab.Content>
                 <Tab.Pane eventKey="login">

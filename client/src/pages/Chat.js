@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
-//import io from "socket.io-client"
-//const socket = io.connect("http://localhost:3001")
+import io from "socket.io-client"
+import Auth from '../utils/auth';
+const socket = io.connect("http://localhost:3001")
+
+const username = Auth.getProfile().username
 
 export default function Chat({ socket, username, room }) {
     const [message, setMessage] = useState("")
@@ -33,8 +36,8 @@ export default function Chat({ socket, username, room }) {
     return (
         <>
             <div className="border border-blue-500 rounded-lg p-4 w-96">
-                {messageList.map((content, index) => {
-                    return <h1 key={index}>{content.message}</h1>;
+                {messageList.map((content) => {
+                    return <h1 key={content.id}>{content.message}</h1>;
                 })}
                 <input
                     className="w-full border border-blue-500 rounded px-2 py-1"
@@ -56,7 +59,6 @@ export default function Chat({ socket, username, room }) {
             </div>
 
             <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
-            <script src="/chat.js"></script>
         </>
     )
 }
