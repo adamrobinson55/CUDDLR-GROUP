@@ -8,7 +8,10 @@ const resolvers = {
             return await User.findById(context._id)
         },
         user: async function (parent, args) {
-            return await User.findById(args.id)
+            console.log(args, "ARGS")
+            const userData = await User.findById(args.id)
+            console.log(userData)
+            return userData
         },
         lobby: async function (parent, args) {
             return await Lobby.findById(args.id)

@@ -35,8 +35,13 @@ const typeDefs = gql`
 
     type Query {
         me(id: ID): User
+<<<<<<< HEAD
+        user(id: String): User
+        lobby: Lobby
+=======
         user(id: ID): User
         lobby(id: ID): Lobby
+>>>>>>> a049f548594ef3e4eebf811689145eee45f99f30
         allUsers: [User]
         allLobbies: [Lobby]
     }

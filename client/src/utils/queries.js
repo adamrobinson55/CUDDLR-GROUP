@@ -27,10 +27,9 @@ query allLobbies {
 }`
 
 export const QUERY_SINGLE_USER = gql`
-query user($userId: ID) {
+query user($userId: String) {
     user(id: $userId) {
         username
-        aboutme
         email
     }
 }
