@@ -21,10 +21,19 @@ const socket = io.connect("http://localhost:3002", {
   rejectUnauthorized: false
 });
 
+
 const client = new ApolloClient({
   uri: "/graphql",
   cache: new InMemoryCache(),
 });
+
+function formatName(user) {
+  return user.userName
+};
+
+const user = {
+  userName: 'Harry',
+};
 
 export default function App() {
   const [username, setUserName] = useState("");
