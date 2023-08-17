@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
+// import { useMutation, useQuery } from '@apollo/client';
+// import { QUERY_SINGLE_USER } from '../utils/queries';
+// import { useParams } from 'react-router-dom';
 import ProfileIcon from './ProfileIcon';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
@@ -11,7 +14,20 @@ const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
+
+  // const { userId } = useParams()
+
+  // const { loading, data } = useQuery(QUERY_SINGLE_USER, {
+  //   variables: { id: userId }
+  // })
+
+  // console.log(user)
+  // const user = data.user || {}
+
+
   function formatName(user) {
+    console.log(user.userName);
+
     return user.userName
   };
   
@@ -55,14 +71,14 @@ const AppNavbar = () => {
                   heyo
                 </Nav.Link>
                 {/* if user is logged in show saved books and logout */}
-                {Auth.loggedIn() &&
+                {/* {Auth.loggedIn() && */}
                 <Nav.Link href="#profile">
                   <h4>
-                    Welcome, {user}!
+                    Welcome, {formatName(user)}!
                     <ProfileIcon />
                   </h4>
                 </Nav.Link>
-                }
+                {/* } */}
                 {Auth.loggedIn() ? (
                   <>
                     <Nav.Link as={Link} to='/saved'>
