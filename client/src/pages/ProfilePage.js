@@ -5,26 +5,46 @@ import { QUERY_SINGLE_USER } from '../utils/queries'
 import { useParams } from 'react-router-dom'
 
 export default function ProfilePage() {
-  const { userId } = useParams()
+  const { id } = useParams()
+  const [friendList, setFriendList] = useState([])
+  const [favList, setFavList] = useState([])
 
   // set up states
-
+ //console.log(id)
   const { loading, data } = useQuery(QUERY_SINGLE_USER, {
-    variables: { id: userId } // would this work? (ask TA)
+    variables: { id: id } // would this work? (ask TA)
   }) 
-  const [ addFriend, { error }] = useMutation(ADD_FRIEND)
+
+  const [ addFriend, { error }] = useMutation(ADD_FRIEND, { 
+    variables: { id: id } // ask TA if addFriend needs variable here or on line 45
+  }) 
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  setFriendList(data.friends)
+  setFavList(data.favorites)
+  
+ if(error) {
+    return console.error("There has been an error")
+ }
 
   // get user data from getSingleUser query
+
+
   console.log(data.user)
   const user = data.user || {}
+
   // setup button to add friend 
 
   const handleAddFriend = (e) => {
-  e.preventDefault()
-  console.log("BUTTON WORKS!!!") 
-  addFriend({
-    variables: data._id
-  })
+    e.preventDefault()
+    console.log("BUTTON WORKS!!!") 
+    addFriend({
+      variables: data._id
+    })
+   // return <button>Add Friend</button>
 }
   // if statement in the return
 
@@ -47,7 +67,8 @@ export default function ProfilePage() {
             </p>
           </div>
           <div className="mt-4">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
+            <button onClick={addFriend} className="bg-blue-500 text-white px-4 py-2 rounded-md"> 
+            {/* ask TA about onClick */}
               Add Friend
             </button>
           </div>
