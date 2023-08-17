@@ -43,6 +43,7 @@ const AppNavbar = () => {
             {Auth.loggedIn() ? (
               <Nav.Link as={Link} to={`/user/${Auth.getProfile().data._id}`}>
                 <h1 className='text-white'>Welcome To Hydruh, {Auth.getProfile().data.username}</h1>
+                <ProfileIcon />
               </Nav.Link>
             ) : (
               <h1 className="text-white">Welcome To Hydruh</h1>
@@ -83,7 +84,7 @@ const AppNavbar = () => {
       >
         <div className="">
           <Tab.Container defaultActiveKey="login">
-            {/* <Modal.Header closeButton>
+            <Modal.Header closeButton>
               <Modal.Title id="signup-modal">
                 <Nav className="flex border rounded-lg overflow-hidden">
                   <Nav.Item>
@@ -94,17 +95,19 @@ const AppNavbar = () => {
                   </Nav.Item>
                 </Nav>
               </Modal.Title>
-            </Modal.Header> */}
+            </Modal.Header>
+
             <Modal.Body>
-              <Tab.Content>
+              <Tab.Content className='max-w-12 flex items-center justify-evenly'>
                 <Tab.Pane eventKey="login">
-                  <LoginForm handleModalClose={() => setShowModal(false)} />
+                  <LoginForm className='py-12' handleModalClose={() => setShowModal(false)} />
                 </Tab.Pane>
                 <Tab.Pane eventKey="signup">
-                  <SignUpForm handleModalClose={() => setShowModal(false)} />
+                  <SignUpForm className='py-12' handleModalClose={() => setShowModal(false)} />
                 </Tab.Pane>
               </Tab.Content>
             </Modal.Body>
+
           </Tab.Container>
         </div>
       </Modal>

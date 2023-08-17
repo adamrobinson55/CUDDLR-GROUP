@@ -59,6 +59,7 @@ const LoginForm = () => {
           Something went wrong with your login credentials!
         </Alert>
         <div className="mb-3">
+          <h2 className='text-white'>Log In!</h2>
           <label htmlFor='email' className="block text-white">Email</label>
           <input
             type='text'
